@@ -1,0 +1,60 @@
+	
+<html>
+  <head>
+    <title>test</title>
+
+<script language="JavaScript" type="text/javascript" src="jsbn.js"></script>
+<script language="JavaScript" type="text/javascript" src="jsbn2.js"></script>
+<script language="JavaScript" type="text/javascript" src="prng4.js"></script>
+<script language="JavaScript" type="text/javascript" src="rng.js"></script>
+<script language="JavaScript" type="text/javascript" src="ec.js"></script>
+<script language="JavaScript" type="text/javascript" src="sec.js"></script>
+<script language="JavaScript" type="text/javascript" src="signcryption.js"></script>
+
+<script language="JavaScript" type="text/javascript" src="rollups/sha256.js"></script>
+<script language="JavaScript" type="text/javascript" src="rollups/enc-base64-min.js"></script>
+<script language="JavaScript" type="text/javascript" src="rollups/aes.js"></script>
+<script language="JavaScript" type="text/javascript" src="rollups/hmac-sha256.js"></script>
+
+ </head>
+
+  <body>
+    <h4>Show result</h4>
+
+<button onclick="Sign()">Sign Verify</button>
+<button onclick="main_func()">Key Verify</button>
+<script>
+
+function main_func() {
+	var username="sazzad";
+    var password="sazzad";
+    //input username and password as string
+    var PrivateKey = get_PrivatekeyHex(username,password);//returns Private key in hexadecimal value
+    var PublicKey = get_PublickeyHex(PrivateKey);//returns Public key in hexadecimal value
+    var result=cmp_Rpubkey(PublicKey,username, password);//returns sucess message
+    alert(result);
+}
+
+function Sign() {
+	
+	var msg="this is secret";
+    var SenderPrivateKey = new BigInteger("541473210550835629635125130343947724374116319326", 10);//Sample private key
+    var SenderPrivateKeyHex=SenderPrivateKey.toString(16);//Sample private key in hexadecimal
+    var SenderPublicKeyHex = get_PublickeyHex(SenderPrivateKeyHex);//Sample public key in hexadecimal
+    var RecieverPrivateKey = new BigInteger("812787138494796210522186354306851961668531814074", 10);//Sample private key
+    var RecieverPrivateKeyHex=RecieverPrivateKey.toString(16);//Sample private key in hexadecimal
+    var RecieverPublicKeyHex = get_PublickeyHex(RecieverPrivateKeyHex);    //Sample public key in hexadecimal
+    
+    var sign =do_SignCrypt(msg, SenderPrivateKeyHex, RecieverPublicKeyHex);//Signing generation
+	var r=sign.R;//store r
+	var s=sign.S;//store s
+	var cipher=sign.cipher;//store cipher
+	
+	var result=do_unSignCrypt(r,s,SenderPublicKeyHex,RecieverPrivateKeyHex,cipher);//unsign
+	alert(result);
+	
+}
+</script>
+  </body>
+</html>
+	
