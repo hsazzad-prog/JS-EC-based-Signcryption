@@ -1,3 +1,3 @@
 JavaEC
 ======
-JAVAEC
+Javascript library to Signcription
