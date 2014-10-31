@@ -1,3 +1,2 @@
-JavaEC
+Javascript encryption
 ======
-Javascript library to Signcription
